@@ -13,8 +13,6 @@ class AECNN(nn.Module):
         self.conv1_1 = nn.Conv2d(in_channels=int((1 + para['mutation rate']) * para['user_graph_len']),
                                  out_channels=32 * para['dimension'],
                                  kernel_size=(1, para['dimension']), stride=(1, 1), padding=0)
-        self.conv1_2 = nn.Conv2d(in_channels=1, out_channels=32,
-                                 kernel_size=(3, 3), stride=(1, 1), padding=1)
         self.conv1_3 = nn.Conv2d(in_channels=1, out_channels=8,
                                  kernel_size=(3, 3), stride=(2, 2), padding=1)
         self.conv1_4 = nn.Conv2d(in_channels=8, out_channels=1,
@@ -31,7 +29,6 @@ class AECNN(nn.Module):
         # encoder
         x1_1 = self.conv1_1(x1)  # 2048,400,1,1
         x1_1 = x1_1.view(x1_1.size(0), 1, 32, -1)  # 这里x1的size是[batch,16 * para['dimension']]
-        # x1_2 = self.conv1_2(x1_1)
         x1_2 = self.conv1_3(self.relu(x1_1))
         x1_3 = self.conv1_4(x1_2)
         # decoder
